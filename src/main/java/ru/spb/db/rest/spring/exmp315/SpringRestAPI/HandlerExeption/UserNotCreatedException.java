@@ -1,4 +1,4 @@
-package ru.spb.db.rest.spring.exmp315.SpringRestAPI.utill;
+package ru.spb.db.rest.spring.exmp315.SpringRestAPI.HandlerExeption;
 
 public class UserNotCreatedException extends RuntimeException {
 
