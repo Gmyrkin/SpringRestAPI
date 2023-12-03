@@ -4,20 +4,19 @@ package ru.spb.db.rest.spring.exmp315.SpringRestAPI.controllers;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
-import ru.spb.db.rest.spring.exmp315.SpringRestAPI.models.User;
-import ru.spb.db.rest.spring.exmp315.SpringRestAPI.service.UserService;
 import ru.spb.db.rest.spring.exmp315.SpringRestAPI.HandlerExeption.UserErrorResponse;
 import ru.spb.db.rest.spring.exmp315.SpringRestAPI.HandlerExeption.UserNotCreatedException;
 import ru.spb.db.rest.spring.exmp315.SpringRestAPI.HandlerExeption.UserNotFoundException;
+import ru.spb.db.rest.spring.exmp315.SpringRestAPI.models.User;
+import ru.spb.db.rest.spring.exmp315.SpringRestAPI.service.UserService;
 
 import java.util.List;
 
 @RestController // @Controller + @ResponseBody над каждым методом (если нуждно возвращать данные)
-@RequestMapping("/user")
+@RequestMapping("/api")
 public class AdminController {
 
     private final UserService userService;
@@ -26,16 +25,9 @@ public class AdminController {
         this.userService = userService;
     }
 
-    @GetMapping
-    public List<User> getUsers() {
-        return userService.findAll(); // Jackson конвертирует эти объекты в JSON
-
-    }
-
-    @PostMapping
-    public ResponseEntity<HttpStatus> createUser(@RequestBody @Valid User user,
-                                                 BindingResult bindingResult) {
-
+    @PostMapping("/create/user")
+    public ResponseEntity<?> createNewUser(@RequestBody @Valid User user,
+                                           BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             StringBuilder errorMsg = new StringBuilder();
 
@@ -47,27 +39,66 @@ public class AdminController {
             }
 
             throw new UserNotCreatedException(errorMsg.toString());
-
         }
-        userService.saveUser(user); // отправляем НТТР ответ с пустым телом и статусом 200 (всё прошло успешно)
-        return ResponseEntity.ok(HttpStatus.OK);
+
+        User createUser = userService.saveUser(user);
+        // отправляем НТТР ответ с пустым телом и статусом 200 (всё прошло успешно)
+        return new ResponseEntity<Object>(createUser, HttpStatus.CREATED);
 
     }
 
-    @ExceptionHandler
-    private ResponseEntity<UserErrorResponse> handlerException(UserNotFoundException e) {
 
-        UserErrorResponse response = new UserErrorResponse(
-                "User with this id wasn't found !",
+    @GetMapping("/user/{id}")
+    public ResponseEntity<?> getUserById(@PathVariable("id") Long id) {
+        User user = userService.findUserById(id);
+        if (user == null || user.getPassword().isEmpty()) {
+            UserErrorResponse userErrorResponse = new UserErrorResponse(
+                    "User with this id wasn't found !",
+                    System.currentTimeMillis()
+            );
+
+            return new ResponseEntity<Object>(userErrorResponse, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<Object>(user, HttpStatus.OK);
+    }
+
+    @GetMapping("/user")
+    public ResponseEntity<?> getAllUsers() {
+        List<User> userList = userService.findAllUsers();
+        return new ResponseEntity<Object>(userList, HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/update/user/{id}")
+    public ResponseEntity<?> updateUser(@PathVariable("id") Long id, @RequestBody User user) {
+        user.setId(id);
+        User updatedUser = userService.updateUser(user);
+        return new ResponseEntity<Object>(updatedUser, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/user/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable("id") Long id) {
+        userService.deleteUser(id);
+        UserErrorResponse userErrorResponse = new UserErrorResponse(
+                "User has been deleted successfully !",
                 System.currentTimeMillis()
         );
-
-        // в НТТР отвтет будет тело ответа (response) который преброзован в JSON
-        // а также будет отображён статус в заголовке
-
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND); // @ResponseEntity объёртка над исключением
-        // NOT_FOUND - 404 ошибка
+        return new ResponseEntity<Object>(userErrorResponse, HttpStatus.OK);
     }
+
+//    @ExceptionHandler
+//    private ResponseEntity<UserErrorResponse> handlerException(UserNotFoundException e) {
+//
+//        UserErrorResponse response = new UserErrorResponse(
+//                "User with this id wasn't found !",
+//                System.currentTimeMillis()
+//        );
+//
+//        // в НТТР отвтет будет тело ответа (response) который преброзован в JSON
+//        // а также будет отображён статус в заголовке
+//
+//        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND); // @ResponseEntity объёртка над исключением
+//        // NOT_FOUND - 404 ошибка
+//    }
 
     @ExceptionHandler
     private ResponseEntity<UserErrorResponse> handlerException(UserNotCreatedException e) {
@@ -80,23 +111,7 @@ public class AdminController {
 
     }
 
-    @GetMapping("/delete/{id}")
-    public ResponseEntity<HttpStatus> deleteUser(@PathVariable Long id) {
-        userService.deleteById(id);
-        return ResponseEntity.ok(HttpStatus.OK);
-
-    }
 
 
-//    @PostMapping ("/update/{id}")
-//    public ResponseEntity<HttpStatus> updateUser(@RequestBody User user, @PathVariable Long id) {
-//        userService.updateUser(user);
-//        return ResponseEntity.ok(HttpStatus.OK);
-//    }
-
-    @PatchMapping("/update/{id}")
-    public String update(@ModelAttribute(value = "user") User user, @PathVariable("id") Long id) {
-        return userService.updateUser(user);
-
-    }
 }
+
