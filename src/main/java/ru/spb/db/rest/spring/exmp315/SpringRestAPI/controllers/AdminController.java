@@ -12,7 +12,6 @@ import ru.spb.db.rest.spring.exmp315.SpringRestAPI.HandlerExeption.UserNotCreate
 import ru.spb.db.rest.spring.exmp315.SpringRestAPI.HandlerExeption.UserNotFoundException;
 import ru.spb.db.rest.spring.exmp315.SpringRestAPI.models.User;
 import ru.spb.db.rest.spring.exmp315.SpringRestAPI.service.UserService;
-
 import java.util.List;
 
 @RestController // @Controller + @ResponseBody над каждым методом (если нуждно возвращать данные)
