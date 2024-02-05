@@ -9,7 +9,7 @@ import ru.spb.db.rest.spring.exmp315.SpringRestAPI.service.UserService;
 import ru.spb.db.rest.spring.exmp315.SpringRestAPI.service.UserServiceImpl;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/user")
 public class UserController {
 
     private final UserService userService;

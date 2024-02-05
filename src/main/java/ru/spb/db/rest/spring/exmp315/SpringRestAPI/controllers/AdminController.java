@@ -15,7 +15,7 @@ import ru.spb.db.rest.spring.exmp315.SpringRestAPI.service.UserService;
 import java.util.List;
 
 @RestController // @Controller + @ResponseBody над каждым методом (если нуждно возвращать данные)
-@RequestMapping("/api")
+@RequestMapping("/admin")
 public class AdminController {
 
     private final UserService userService;
