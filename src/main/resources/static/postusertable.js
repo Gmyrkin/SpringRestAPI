@@ -2,7 +2,7 @@ $(document).ready(
     function() {
 
         // SUBMIT FORM
-        $("#bookForm").submit(function(event) {
+        $("#userForm").submit(function(event) {
             // Prevent the form from submitting via the browser.
             event.preventDefault();
             ajaxPost();
@@ -12,24 +12,25 @@ $(document).ready(
 
             // PREPARE FORM DATA
             var formData = {
-                bookId : $("#bookId").val(),
-                bookName : $("#bookName").val(),
-                author : $("#author").val()
+                firstName : $("#firstName").val(),
+                lastName : $("#lastName").val(),
+                password : $("#password").val()
             }
 
             // DO POST
             $.ajax({
                 type : "POST",
                 contentType : "application/json",
-                url : "saveBook",
+                url : "admin/create/user",
                 data : JSON.stringify(formData),
                 dataType : 'json',
                 success : function(result) {
                     if (result.status == "success") {
                         $("#postResultDiv").html(
-                            "" + result.data.bookName
-                            + "Post Successfully! <br>"
-                            + "---> Congrats !!" + "</p>");
+                            ""
+                            + result.data.bookName
+                            + "Post Successfully! "
+                            + " Congrats!" + "");
                     } else {
                         $("#postResultDiv").html("<strong>Error</strong>");
                     }
