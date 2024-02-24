@@ -11,11 +11,11 @@ $(document).ready(
         function ajaxPost() {
 
             // PREPARE FORM DATA
-            var formData = {
-                firstName : $("#firstName").val(),
-                lastName : $("#lastName").val(),
-                password : $("#password").val()
-            }
+            const formData = {
+                firstName: $("#firstName").val(),
+                lastName: $("#lastName").val(),
+                password: $("#password").val()
+            };
 
             // DO POST
             $.ajax({
@@ -28,8 +28,8 @@ $(document).ready(
                     if (result.status == "success") {
                         $("#postResultDiv").html(
                             ""
-                            + result.data.bookName
-                            + "Post Successfully! "
+                            + result.data.firstName
+                            +  "Post Successfully! "
                             + " Congrats!" + "");
                     } else {
                         $("#postResultDiv").html("<strong>Error</strong>");

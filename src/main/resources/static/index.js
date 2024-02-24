@@ -1,5 +1,5 @@
 $(async function () {
-    await getTableUsers();
+    await getTableWithUsers();
     getNewUserForm();
     getDefaultModal();
     addNewUser();
@@ -7,21 +7,21 @@ $(async function () {
 
 
 const userFetchService = {
-    header: {
+    head: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Referer': null
     },
 
     findAllUsers: async () => await fetch('admin/user'),
-    findOneUser: async (id) => await fetch(`admin/user/${id}`),
-    addNewUser: async (user) => await fetch('admin/create/', {method: 'POST', headers: userFetchService.head, body: JSON.stringify(user)}),
-    updateUser: async (user, id) => await fetch(`admin/update/user/${id}`, {method: 'PUT', headers: userFetchService.head, body: JSON.stringify(user)}),
-    deleteUser: async (id) => await fetch(`admin/delete/user/${id}`, {method: 'DELETE', headers: userFetchService.head})
+    findOneUser: async (id) => await fetch(`admin/user/{id}`),
+    addNewUser: async (user) => await fetch('admin/create/user', {method: 'POST', headers: userFetchService.head, body: JSON.stringify(user)}),
+    updateUser: async (user, id) => await fetch(`admin/update/user/{id}`, {method: 'PUT', headers: userFetchService.head, body: JSON.stringify(user)}),
+    deleteUser: async (id) => await fetch(`admin/delete/user/{id}`, {method: 'DELETE', headers: userFetchService.head})
 }
 
-async function getTableUsers() {
-    let table = $('#mainTableUsers tbody');
+async function getTableWithUsers() {
+    let table = $('#mainTableWithUsers tbody');
     table.empty();
 
     await userFetchService.findAllUsers()
@@ -35,11 +35,11 @@ async function getTableUsers() {
                             <td>${user.lastName}</td>
                             <td>${user.password.slice(0, 15)}...</td>
                             <td>
-                                <button type="button" data-userid="${user.id}" data-action="edit" class="btn btn-outline-secondary"
+                                <button type="button" data-userid="${user.id}" data-action="edit" class="btn btn-outline-secondary" 
                                 data-toggle="modal" data-target="#someDefaultModal"></button>
                             </td>
                             <td>
-                                <button type="button" data-userid="${user.id}" data-action="delete" class="btn btn-outline-danger"
+                                <button type="button" data-userid="${user.id}" data-action="delete" class="btn btn-outline-danger" 
                                 data-toggle="modal" data-target="#someDefaultModal"></button>
                             </td>
                         </tr>
@@ -48,11 +48,11 @@ async function getTableUsers() {
             })
         })
 
-
-    // обрабатываем нажатие на любую из кнопок edit или delete
-    // достаем из нее данные и отдаем модалке, которую открываем
-    $("#mainTableUsers").find('button').on('click', (event) => {
+    // нажатие на кнопку edit или delete
+    // достаем данные и отдаем модалке, которую открываем
+    $("#mainTableWithUsers").find('button').on('click', (event) => {
         let defaultModal = $('#someDefaultModal');
+
         let targetButton = $(event.target);
         let buttonUserId = targetButton.attr('data-userid');
         let buttonAction = targetButton.attr('data-action');
@@ -79,7 +79,6 @@ async function getNewUserForm() {
         }
     })
 }
-
 
 
 // что то деалем при открытии модалки и при закрытии
@@ -125,7 +124,7 @@ async function editUser(modal, id) {
     user.then(user => {
         let bodyForm = `
             <form class="form-group" id="editUser">
-                <input type="text" class="form-control" id="id" name="id" value="${user.id}" disabled><br>
+                <input class="form-control" type="text" id="id" name="id" value="${user.id}" disabled><br>
                 <input class="form-control" type="text" id="firstName" value="${user.firstName}"><br>
                 <input class="form-control" type="text" id="lastName" value="${user.lastName}"><br>
                 <input class="form-control" type="password" id="password"><br>
@@ -148,7 +147,7 @@ async function editUser(modal, id) {
         const response = await userFetchService.updateUser(data, id);
 
         if (response.ok) {
-            getTableUsers();
+            getTableWithUsers();
             modal.modal('hide');
         } else {
             let body = await response.json();
@@ -167,7 +166,7 @@ async function editUser(modal, id) {
 // удаляем юзера из модалки удаления
 async function deleteUser(modal, id) {
     await userFetchService.deleteUser(id);
-    getTableUsers();
+    getTableWithUsers();
     modal.find('.modal-title').html('');
     modal.find('.modal-body').html('User was deleted');
     let closeButton = `<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`
@@ -175,15 +174,12 @@ async function deleteUser(modal, id) {
 }
 
 
-
-
-
 async function addNewUser() {
     $('#addNewUserButton').click(async () =>  {
         let addUserForm = $('#defaultSomeForm')
         let firstName = addUserForm.find('#AddNewFirstName').val().trim();
         let lastName = addUserForm.find('#AddNewLastName').val().trim();
-        let password = addUserForm.find('#AddNewPassword').val().trim();
+        let password = addUserForm.find('#AddNewUserPassword').val().trim();
         let data = {
             firstName: firstName,
             lastName: lastName,
@@ -191,10 +187,10 @@ async function addNewUser() {
         }
         const response = await userFetchService.addNewUser(data);
         if (response.ok) {
-            getTableUsers();
+            getTableWithUsers();
             addUserForm.find('#AddNewFirstName').val('');
             addUserForm.find('#AddNewLastName').val('');
-            addUserForm.find('#AddNewPassword').val('');
+            addUserForm.find('#AddNewUserPassword').val('');
         } else {
             let body = await response.json();
             let alert = `<div class="alert alert-danger alert-dismissible fade show col-12" role="alert" id="sharaBaraMessageError">

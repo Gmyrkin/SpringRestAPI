@@ -9,7 +9,7 @@ import ru.spb.db.rest.spring.exmp315.SpringRestAPI.service.UserService;
 import ru.spb.db.rest.spring.exmp315.SpringRestAPI.service.UserServiceImpl;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping()
 public class UserController {
 
     private final UserService userService;
@@ -18,10 +18,16 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/sayHello")
-    public String sayHello(){
-        return "Hello USERFUCKER";
+//    @GetMapping("/sayHello")
+//    public String sayHello(){
+//        return "Hello USERFUCKER";
+//    }
+
+    @GetMapping("/")
+    public String getIndex() {
+        return "index";
     }
+
 
 }
 

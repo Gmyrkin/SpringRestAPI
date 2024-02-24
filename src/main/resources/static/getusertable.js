@@ -11,19 +11,18 @@ GET: $(document).ready(
         function ajaxGet() {
             $.ajax({
                 type : "GET",
-                url : "user",
+                url : "admin/user",
                 success : function(result) {
                     if (result.status == "success") {
                         $('#getResultDiv ul').empty();
                         var custList = "";
                         $.each(result.data,
                             function(i, user) {
-                                var user = "First Name  " + user.firstName
+                                var users = "First Name  " + user.firstName
                                     + ", Last Name  = " + user.lastName
                                     + ", Password  = " + user.password
                                     + "<br>";
-                                $('#getResultDiv .list-group').append(
-                                    user)
+                                $('#getResultDiv .list-group').append(users)
                             });
                         console.log("Success: ", result);
                     } else {

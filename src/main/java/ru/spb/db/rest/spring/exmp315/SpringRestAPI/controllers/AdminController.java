@@ -2,21 +2,17 @@ package ru.spb.db.rest.spring.exmp315.SpringRestAPI.controllers;
 
 
 import jakarta.validation.Valid;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.filter.CommonsRequestLoggingFilter;
-import ru.spb.db.rest.spring.exmp315.SpringRestAPI.HandlerExeption.UserErrorResponse;
-import ru.spb.db.rest.spring.exmp315.SpringRestAPI.HandlerExeption.UserNotCreatedException;
-import ru.spb.db.rest.spring.exmp315.SpringRestAPI.HandlerExeption.UserNotFoundException;
+import ru.spb.db.rest.spring.exmp315.SpringRestAPI.handler.UserErrorResponse;
+import ru.spb.db.rest.spring.exmp315.SpringRestAPI.handler.UserNotCreatedException;
 import ru.spb.db.rest.spring.exmp315.SpringRestAPI.models.User;
 import ru.spb.db.rest.spring.exmp315.SpringRestAPI.service.UserService;
 import java.util.List;
-import java.util.Map;
+
 
 @RestController // @Controller + @ResponseBody над каждым методом (если нуждно возвращать данные)
 @RequestMapping("/admin")
@@ -114,23 +110,23 @@ public class AdminController {
 
     }
 
-    @Configuration
-    class Config{
-        @Bean
-
-
-        public CommonsRequestLoggingFilter requestLoggingFilter(){
-            CommonsRequestLoggingFilter loggingFilter = new CommonsRequestLoggingFilter();
-            loggingFilter.setIncludeClientInfo(true);
-            loggingFilter.setIncludeQueryString(true);
-            loggingFilter.setIncludePayload(true);
-            loggingFilter.setMaxPayloadLength(64000);
-            loggingFilter.setIncludeHeaders(true);
-            return loggingFilter;
-
-        }
-    }
-
+//    @Configuration
+//    class Config{
+//
+//        @Bean
+//        public CommonsRequestLoggingFilter requestLoggingFilter(){
+//            CommonsRequestLoggingFilter loggingFilter = new CommonsRequestLoggingFilter();
+//            loggingFilter.setIncludeClientInfo(true);
+//            loggingFilter.setIncludeQueryString(true);
+//            loggingFilter.setIncludePayload(true);
+//            loggingFilter.setMaxPayloadLength(64000);
+//            loggingFilter.setIncludeHeaders(true);
+//            return loggingFilter;
+//
+//        }
+//
+//
+//    }
 
 
 }

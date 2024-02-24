@@ -1,4 +1,4 @@
-package ru.spb.db.rest.spring.exmp315.SpringRestAPI.HandlerExeption;
+package ru.spb.db.rest.spring.exmp315.SpringRestAPI.handler;
 
 public class UserErrorResponse {
 
