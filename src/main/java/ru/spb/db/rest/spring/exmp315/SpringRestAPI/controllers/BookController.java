@@ -28,6 +28,7 @@ public class BookController {
     @GetMapping("/getBooks")
     public ResponseEntity<Object> getAllBooks() {
         ServiceResponse<List<Book>> response = new ServiceResponse<>("success", bookStore);
+        System.out.println("я в методe getBOOKS");
         return new ResponseEntity<Object>(response, HttpStatus.OK);
     }
 }

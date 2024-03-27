@@ -14,24 +14,24 @@ GET: $(document).ready(
                 url : "admin/user",
                 success : function(result) {
                     if (result.status == "success") {
-                        $('#getResultDiv ul').empty();
+                        $('#getResultUsers ul').empty();
                         var custList = "";
                         $.each(result.data,
                             function(i, user) {
-                                var users = "First Name  " + user.firstName
+                                const userinfo = "First Name  " + user.firstName
                                     + ", Last Name  = " + user.lastName
                                     + ", Password  = " + user.password
                                     + "<br>";
-                                $('#getResultDiv .list-group').append(users)
+                                $('#getResultUsers .list-group').append(userinfo)
                             });
                         console.log("Success: ", result);
                     } else {
-                        $("#getResultDiv").html("<strong>Error</strong>");
+                        $("#getResultUsers").html("<strong>ERROR</strong>");
                         console.log("Fail: ", result);
                     }
                 },
                 error : function(e) {
-                    $("#getResultDiv").html("<strong>Error</strong>");
+                    $("#getResultUsers").html("<strong>Error</strong>");
                     console.log("ERROR: ", e);
                 }
             });

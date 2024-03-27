@@ -3,7 +3,6 @@ $(document).ready(
 
         // SUBMIT FORM
         $("#userForm").submit(function(event) {
-            // Prevent the form from submitting via the browser.
             event.preventDefault();
             ajaxPost();
         });
@@ -20,7 +19,7 @@ $(document).ready(
             // DO POST
             $.ajax({
                 type : "POST",
-                contentType : "application/json",
+                // contentType : "application/json",
                 url : "admin/create/user",
                 data : JSON.stringify(formData),
                 dataType : 'json',

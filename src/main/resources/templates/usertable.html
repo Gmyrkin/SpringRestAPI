@@ -1,4 +1,5 @@
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
     <meta httpequiv="X-UA-Compatible" content="IE=edge" />
@@ -7,6 +8,7 @@
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"/>
 </head>
 <body>
+<div id="postResultDiv" align="center"></div>
 <div class="container mt-5">
     <div class="text-center">
         <h1 class="display-5 mb-5"><strong>Table Users</strong></h1>
@@ -30,7 +32,7 @@
     <br/>
     <div class="col-sm-7" style="margin: 20px 0px 20px 0px">
         <button id="getALlUsers" type="button" class="btn btn-primary">All Users</button>
-        <div id="getResultDiv" style="padding: 20px 10px 20px 50px">
+        <div id="getResultUsers" style="padding: 20px 10px 20px 50px">
             <ul class="list-group">
             </ul>
         </div>

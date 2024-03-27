@@ -18,7 +18,7 @@ GET: $(document).ready(
                         var custList = "";
                         $.each(result.data,
                             function(i, book) {
-                                var user = "Book Name  "
+                                const user = "Book Name  "
                                     + book.bookName
                                     + ", Author  = " + book.author
                                     + "<br>";

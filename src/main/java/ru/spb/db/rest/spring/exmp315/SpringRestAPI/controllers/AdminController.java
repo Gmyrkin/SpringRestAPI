@@ -63,9 +63,11 @@ public class AdminController {
 
     @GetMapping("/user")
     public ResponseEntity<?> getAllUsers() {
+        System.out.println("я попал в метод getAllUsers");
         List<User> userList = userService.findAllUsers();
         return new ResponseEntity<Object>(userList, HttpStatus.OK);
     }
+
 
     @PutMapping(value = "/update/user/{id}")
     public ResponseEntity<?> updateUser(@PathVariable("id") Long id, @RequestBody User user) {
@@ -84,21 +86,6 @@ public class AdminController {
         return new ResponseEntity<Object>(userErrorResponse, HttpStatus.OK);
     }
 
-//    @ExceptionHandler
-//    private ResponseEntity<UserErrorResponse> handlerException(UserNotFoundException e) {
-//
-//        UserErrorResponse response = new UserErrorResponse(
-//                "User with this id wasn't found !",
-//                System.currentTimeMillis()
-//        );
-//
-//        // в НТТР отвтет будет тело ответа (response) который преброзован в JSON
-//        // а также будет отображён статус в заголовке
-//
-//        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND); // @ResponseEntity объёртка над исключением
-//        // NOT_FOUND - 404 ошибка
-//    }
-
     @ExceptionHandler
     private ResponseEntity<UserErrorResponse> handlerException(UserNotCreatedException e) {
         UserErrorResponse response = new UserErrorResponse(
@@ -109,24 +96,6 @@ public class AdminController {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST); // 400 ошибка
 
     }
-
-//    @Configuration
-//    class Config{
-//
-//        @Bean
-//        public CommonsRequestLoggingFilter requestLoggingFilter(){
-//            CommonsRequestLoggingFilter loggingFilter = new CommonsRequestLoggingFilter();
-//            loggingFilter.setIncludeClientInfo(true);
-//            loggingFilter.setIncludeQueryString(true);
-//            loggingFilter.setIncludePayload(true);
-//            loggingFilter.setMaxPayloadLength(64000);
-//            loggingFilter.setIncludeHeaders(true);
-//            return loggingFilter;
-//
-//        }
-//
-//
-//    }
 
 
 }

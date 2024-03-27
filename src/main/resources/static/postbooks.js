@@ -3,7 +3,6 @@ $(document).ready(
 
         // SUBMIT FORM
         $("#bookForm").submit(function(event) {
-            // Prevent the form from submitting via the browser.
             event.preventDefault();
             ajaxPost();
         });

@@ -1,14 +1,14 @@
 package ru.spb.db.rest.spring.exmp315.SpringRestAPI.controllers;
 
+import jakarta.servlet.http.HttpSession;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.spb.db.rest.spring.exmp315.SpringRestAPI.models.User;
 import ru.spb.db.rest.spring.exmp315.SpringRestAPI.service.UserService;
-import ru.spb.db.rest.spring.exmp315.SpringRestAPI.service.UserServiceImpl;
 
-@RestController
+@Controller
 @RequestMapping()
 public class UserController {
 
@@ -18,15 +18,11 @@ public class UserController {
         this.userService = userService;
     }
 
-//    @GetMapping("/sayHello")
-//    public String sayHello(){
-//        return "Hello USERFUCKER";
-//    }
-
-    @GetMapping("/")
-    public String getIndex() {
-        return "index";
+    @GetMapping("/usertable")
+    public String usertable() {
+        return "usertable";
     }
+
 
 
 }
